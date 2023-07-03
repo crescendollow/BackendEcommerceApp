@@ -1,0 +1,123 @@
+openapi: "3.1.0"
+info:
+  title: API Products
+  version: "1.0"
+paths:
+  /api/productsRouteBd/:
+    get:
+      summary: Obtain all products
+      tags:
+        - "Products"
+      responses:
+        "200":
+          description: All products obtained
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Products"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+  /api/productsRouteBd/{pid}:
+    get:
+      summary: Get one product
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id for the wanted Product
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+    put:
+      summary: Update product info
+      tags:
+      - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Product Id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProducts"
+              
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Mongo ID
+        titile:
+          type: string
+          description: Product Title
+        description:
+          type: string
+          description: Product Description
+        code:
+          type: string
+          description: Product Code
+        price:
+          type: number
+          description: Product Price
+        stock:
+          type: number
+          description: Product stock
+        category:
+          type: string
+          description: Product category
+      example:
+        _id: ObjectId("kjsdahkhjashdkjsahjk432")
+        titile: Prod
+        description: A product to use
+        code: jksdhajdkhsajhdja9278178
+        price: 15000
+        stock: 100
+        category: Cleaning
+  requestBodies:      
+    updateProduct:
+      description: Product's info with information to update
+      properties:
+        titile:
+          type: string
+          description: Product Title
+        description:
+          type: string
+          description: Product Description
+        code:
+          type: string
+          description: Product Code
+        price:
+          type: number
+          description: Product Price
+        stock:
+          type: number
+          description: Product stock
+        category:
+          type: string
+          description: Product category
+      example:
+        titile: Prod
+        description: A product to use
+        code: jksdhajdkhsajhdja9278178
+        price: 15000
+        stock: 100
+        category: Cleaning
