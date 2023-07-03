@@ -1,0 +1,107 @@
+openapi: "3.1.0"
+info:
+  title: API Users
+  version: "1.0"
+paths:
+  /api/users/:
+    get:
+      summary: Obtain all users
+      tags:
+        - "Users"
+      responses:
+        "200":
+          description: All users obtained
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+  /api/users/{uid}:
+    get:
+      summary: Get one user
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id for the wanted User
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      summary: Update user info
+      tags:
+      - Users
+      parameters:
+      - name: uid
+        in: path
+        required: true
+        description: User Id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateUser"
+              
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Mongo ID
+        first_name:
+          type: string
+          description: User Name
+        last_name:
+          type: string
+          description: User Last Name
+        email:
+          type: string
+          description: User Email
+        password:
+          type: string
+          description: User Password
+      example:
+        _id: ObjectId("87whc8hfte78hcs9dhg8")
+        first_name: Natu
+        last_name: Miranda
+        email: Natu@Miranda.com
+        password: dkjsabdjksabjdksa
+  requestBodies:      
+    updateUser:
+      description: User's body with the information to update
+      properties:
+        first_name:
+          type: string
+          description: User Name
+        last_name:
+          type: string
+          description: User LastName
+        email:
+          type: string
+          description: User Email
+        password:
+          type: string
+          description: User Password
+      example:
+        first_name: Nati
+        last_name: Miranda
+        email: Nati@Miranda.com
+        password: nati246
